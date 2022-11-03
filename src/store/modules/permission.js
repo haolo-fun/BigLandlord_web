@@ -30,7 +30,7 @@ export function filterAsyncRoutes(routes, roles) {
       res.push(tmp)
     }
   })
-
+  console.log(res)
   return res
 }
 
