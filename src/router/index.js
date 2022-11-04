@@ -83,7 +83,20 @@ export const asyncRoutes = [
         path: 'index',
         name: 'Deposit',
         component: () => import('@/views/deposit/index'),
-        meta: { title: 'Deposit', icon: 'table' }
+        meta: { title: '押金管理', icon: 'el-icon-money' }
+      }
+    ]
+  },
+
+  {
+    path: '/tenant',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Deposit',
+        component: () => import('@/views/tenant/index'),
+        meta: { title: '租客信息管理', icon: 'table' }
       }
     ]
   },

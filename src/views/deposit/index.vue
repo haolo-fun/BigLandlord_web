@@ -62,7 +62,7 @@
           <span>{{ row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="200px" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="200px" fixed="right" class-name="small-padding fixed-width">
         <template v-slot="{ row, $index }">
           <el-button v-if="row.status == '0'" size="mini" type="warning" @click="handleStatusToPayDialog(row.depositSn)">
             已收款
