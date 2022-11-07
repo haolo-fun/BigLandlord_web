@@ -94,9 +94,22 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: 'Deposit',
+        name: 'Tenant',
         component: () => import('@/views/tenant/index'),
         meta: { title: '租客信息管理', icon: 'table' }
+      }
+    ]
+  },
+
+  {
+    path: '/house',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'House',
+        component: () => import('@/views/house/index'),
+        meta: { title: '房源信息管理', icon: 'el-icon-s-home' }
       }
     ]
   },

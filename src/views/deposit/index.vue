@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input v-model="listQuery.depositSn" placeholder="押金单号" clearable style="width: 200px" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-select v-model="listQuery.tenantId" placeholder="租客姓名" clearable filterable remote class="filter-item" :remote-method="remoteMethod" :loading="selectLoading">
-        <el-option v-for="item in selectOptions" :key="item.tenantId" :label="item.tenantId+' : '+item.name" :value="item.tenantId" />
+        <el-option v-for="item in selectOptions" :key="item.tenantId" :label="item.name + '（' + item.mobile + '）'" :value="item.tenantId" />
       </el-select>
       <el-select v-model="listQuery.status" placeholder="订单状态" clearable style="width: 200px" class="filter-item">
         <el-option v-for="item in depositStatusOptions" :key="item.key" :label="item.display_name + '(' + item.key + ')'" :value="item.key" />
@@ -30,6 +30,7 @@
           <span>{{ row.deposit }}</span>
         </template>
       </el-table-column>
+      <!--todo 考虑不显示租客id-->
       <el-table-column label="租客id" width="105px" align="center">
         <template v-slot="{ row }">
           <span>{{ row.tenantId }}</span>
@@ -354,13 +355,13 @@ export default {
     },
     remoteMethod(name) {
       if (name !== '') {
-        this.loading = true
+        this.selectLoading = true
         getTenantOptions(name).then(
           (response) => {
             this.selectOptions = response.data
           }
         )
-        this.loading = false
+        this.selectLoading = false
       }
     }
   }
