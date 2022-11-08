@@ -21,7 +21,7 @@
       </el-button>
     </div>
 
-    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table :key="tableKey" v-loading="listLoading" :data="list" stripe border fit highlight-current-row style="width: 100%">
       <el-table-column label="地址" align="center" min-width="200px">
         <template v-slot="{ row }">
           <span>{{ row.address }}</span>

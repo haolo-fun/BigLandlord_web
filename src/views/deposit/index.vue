@@ -19,7 +19,7 @@
       </el-button>
     </div>
 
-    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table :key="tableKey" v-loading="listLoading" :data="list" stripe border fit highlight-current-row style="width: 100%">
       <el-table-column label="押金单号" align="center" min-width="160">
         <template v-slot="{ row }">
           <span>{{ row.depositSn }}</span>
