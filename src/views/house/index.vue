@@ -61,7 +61,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="250px" fixed="right" class-name="small-padding fixed-width">
         <template v-slot="{ row, $index }">
-          <el-button v-if="row.status === 0" size="mini" type="success" @click="handleOrderDialog()">
+          <el-button v-if="row.status === 0" size="mini" type="success" @click="handleOrderDialog(row.id)">
             构建租单
           </el-button>
           <el-button v-if="row.status === 1" size="mini" type="success" disabled>
@@ -165,6 +165,7 @@ import { addHouse, delHouse, updateHouse, list, listByAddress, listByStatus, lis
 import Pagination from '@/components/Pagination'
 import { getTenantOptions } from '@/api/tenant'
 import { buildOrder } from '@/api/order'
+import waves from '@/directive/waves'
 
 const statusOptions = [
   {
@@ -196,6 +197,7 @@ const statusKeyValue = statusOptions.reduce((acc, cur) => {
 export default {
   name: 'HouseTable',
   components: { Pagination },
+  directives: { waves },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -247,6 +249,7 @@ export default {
   },
   created() {
     this.getList()
+    console.log(this.$route)
   },
   methods: {
     getList() {

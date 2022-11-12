@@ -115,6 +115,19 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/order',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Order',
+        component: () => import('@/views/order/index'),
+        meta: { title: '租单信息管理', icon: 'el-icon-s-order' }
+      }
+    ]
+  },
+
+  {
     path: 'external-link',
     component: Layout,
     children: [

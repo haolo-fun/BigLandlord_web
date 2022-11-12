@@ -57,3 +57,10 @@ export function listByPrice(low, high, current, size) {
     method: 'get'
   })
 }
+
+export function listByHouseOptions(address) {
+  return request({
+    url: '/house/options/' + address,
+    method: 'get'
+  })
+}

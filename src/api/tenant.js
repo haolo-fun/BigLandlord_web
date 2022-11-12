@@ -50,3 +50,10 @@ export function listByName(name, current, size) {
     method: 'get'
   })
 }
+
+export function getByTenantId(id) {
+  return request({
+    url: '/tenant/' + id,
+    method: 'get'
+  })
+}
