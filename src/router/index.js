@@ -42,6 +42,11 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
+  {
+    path: '/pay',
+    component: () => import('@/views/pay'),
+    hidden: true
+  },
 
   {
     path: '/',
@@ -51,21 +56,8 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
   }
 ]
 
@@ -74,6 +66,25 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/finance',
+    component: Layout,
+    meta: { title: '财务', icon: 'el-icon-s-finance' },
+    children: [
+      {
+        path: 'board',
+        name: 'Board',
+        component: () => import('@/views/finance/board'),
+        meta: { title: '看板', icon: 'dashboard' }
+      },
+      {
+        path: 'refund',
+        name: 'Refund',
+        component: () => import('@/views/finance/refund'),
+        meta: { title: '退款', icon: 'el-icon-refresh-left' }
+      }
+    ]
+  },
 
   {
     path: '/deposit',
