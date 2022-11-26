@@ -181,6 +181,7 @@
 import { validPhone, validCode } from '@/utils/validate'
 import { sandCodeToTenant } from '@/api/notify'
 import { getPaymentMsg } from '@/api/payment'
+import { payDepositByPC, payDepositByPhone, payOrderByPC, payOrderByPhone } from '@/api/pay'
 
 const depositStatusOptions = [
   {
@@ -349,11 +350,13 @@ export default {
             this.initStatus()
             if (this.depositList[0].status === 0) {
               this.depositPrice = this.depositList[0].deposit
+              this.payTemp.depositSn = this.depositList[0].depositSn
             } else {
               this.payDepositDisabled = true
             }
             if (this.orderList[0].orderStatus === 1) {
               this.orderPrice = this.orderList[0].price
+              this.payTemp.orderSn = this.orderList[0].orderSn
             } else {
               this.payOrderDisabled = true
             }
@@ -367,9 +370,40 @@ export default {
       )
     },
     payDeposit() {
+      const data = { sn: this.payTemp.depositSn, quitUrl: window.location.href }
+      if (this._isMobile()) {
+        payDepositByPhone(data).then(
+          (response) => {
+            window.open(response.data)
+          }
+        )
+      } else {
+        payDepositByPC(data).then(
+          (response) => {
+            window.open(response.data)
+          }
+        )
+      }
       this.dialogVisible = true
     },
     payOrder() {
+      const data = { sn: this.payTemp.orderSn, quitUrl: window.location.href }
+      console.log(data)
+      if (this._isMobile()) {
+        console.log('phone')
+        payOrderByPhone(data).then(
+          (response) => {
+            window.open(response.data)
+          }
+        )
+      } else {
+        console.log('pc')
+        payOrderByPC(data).then(
+          (response) => {
+            window.open(response.data)
+          }
+        )
+      }
       this.dialogVisible = true
     },
     clear() {
