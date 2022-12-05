@@ -65,11 +65,11 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200px" fixed="right" class-name="small-padding fixed-width">
         <template v-slot="{ row, $index }">
-          <el-button v-if="row.status == '0'" size="mini" type="warning" @click="handleStatusToPayDialog(row.depositSn)">
+          <el-button v-if="row.status == '0'" size="mini" type="success" @click="handleStatusToPayDialog(row.depositSn)">
             已收款
           </el-button>
-          <el-button v-if="row.status != '0'" size="mini" type="warning" disabled>
-            已收款
+          <el-button v-if="row.status == '1'" size="mini" type="warning" @click="handleRefund(row.depositSn)">
+            退款
           </el-button>
           <el-button v-if="row.status == '0' || row.status == '2'" size="mini" type="danger" @click="handleDeleteDialog(row.depositSn,$index)">
             删除
@@ -363,6 +363,9 @@ export default {
         )
         this.selectLoading = false
       }
+    },
+    handleRefund(sn) {
+      window.open(window.location.origin + '/#/finance/refund?d=' + sn)
     }
   }
 

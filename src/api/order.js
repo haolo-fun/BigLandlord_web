@@ -21,9 +21,9 @@ export function orderListByHouseId(houseId, desc, current, size) {
   })
 }
 
-export function orderListByOrderSn(orderSn, desc, current, size) {
+export function orderListByOrderSn(orderSn) {
   return request({
-    url: '/order/listByOrderSn/' + orderSn + '/' + current + '/' + size + '/' + desc,
+    url: '/order/listByOrderSn/' + orderSn,
     method: 'get'
   })
 }

@@ -34,14 +34,21 @@ export function payDepositByPhone(data) {
 
 export function alipayTradeQuery(trade_no) {
   return request({
-    url: '/pay/TradeQuery/' + trade_no,
+    url: '/pay/tradeQuery/' + trade_no,
     method: 'get'
   })
 }
 
-export function alipayTradeRefund(refund_amount, deposit_sn) {
+export function depositRefund(refund_amount, deposit_sn) {
   return request({
-    url: '/pay/TradeRefund/' + refund_amount + '/' + deposit_sn,
+    url: '/pay/tradeRefund/deposit/' + refund_amount + '/' + deposit_sn,
+    method: 'put'
+  })
+}
+
+export function orderRefund(refund_amount, order_sn) {
+  return request({
+    url: '/pay/tradeRefund/order/' + refund_amount + '/' + order_sn,
     method: 'put'
   })
 }

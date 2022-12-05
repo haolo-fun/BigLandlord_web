@@ -57,7 +57,7 @@
           <span>{{ row.price }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付交易号" min-width="200px" align="center">
+      <el-table-column label="支付交易号" min-width="210px" align="center">
         <template v-slot="{ row }">
           <span>{{ row.payId }}</span>
         </template>
@@ -210,7 +210,7 @@
 <script>
 
 import {
-  orderList, orderListByHouseId, orderListByOrderSn, orderListByOrderStatus, orderListByTenantId, updateStatusToHAS_BEEN_ISSUED, updateStatusToHAVE_TO_PAY,
+  orderList, orderListByHouseId, orderListByOrderSn, orderListByOrderStatus, orderListByTenantId, updateStatusToHAS_BEEN_ISSUED,
   updateStatusToNOT_ISSUED, updateAdditional, deleteAdditional, addAdditional, listByAdditional
 } from '@/api/order'
 import Pagination from '@/components/Pagination'
@@ -234,6 +234,10 @@ const statusOptions = [
   {
     key: 3,
     label: '过期'
+  },
+  {
+    key: 4,
+    label: '已退款'
   }
 ]
 
@@ -312,7 +316,7 @@ export default {
     getList() {
       this.listLoading = true
       if (this.listQuery.sn !== '') {
-        orderListByOrderSn(this.listQuery.sn, true, this.listQuery.page, this.listQuery.limit).then(
+        orderListByOrderSn(this.listQuery.sn).then(
           (response) => {
             this.list = response.data.list
             this.total = response.data.total
