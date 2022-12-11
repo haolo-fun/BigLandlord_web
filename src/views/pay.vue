@@ -305,7 +305,7 @@ export default {
         return false
       }
       this.stepsActive = this.stepsActive + 1
-      return true
+      return this.stepsActive !== 3
     },
     back() {
       this.stepsActive = this.stepsActive - 1
