@@ -67,6 +67,29 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
+    path: '/user',
+    component: Layout,
+    meta: {
+      roles: ['admin'],
+      title: '用户管理',
+      icon: 'el-icon-user'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/user/index'),
+        meta: { roles: ['admin'], title: '用户', icon: 'el-icon-user-solid' }
+      },
+      {
+        path: 'role',
+        name: 'Role',
+        component: () => import('@/views/user/role'),
+        meta: { roles: ['admin'], title: '权限', icon: 'el-icon-warning' }
+      }
+    ]
+  },
+  {
     path: '/finance',
     component: Layout,
     meta: { title: '财务', icon: 'el-icon-s-finance' },

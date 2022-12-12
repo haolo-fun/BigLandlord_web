@@ -66,7 +66,11 @@ const actions = {
 
         commit('SET_ROLES', roles)
         commit('SET_NAME', nickName)
-        commit('SET_AVATAR', icon)
+        if (icon === null) {
+          commit('SET_AVATAR', window.location.origin + '/avatar.png')
+        } else {
+          commit('SET_AVATAR', icon)
+        }
         resolve(data)
       }).catch(error => {
         reject(error)
