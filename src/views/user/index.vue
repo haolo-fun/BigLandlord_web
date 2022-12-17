@@ -46,10 +46,13 @@
           <span>{{ row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="250px" fixed="right" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" min-width="250px" fixed="right">
         <template v-slot="{ row }">
           <el-button size="mini" type="primary" @click="handleUpdateDialog(row)">
             编辑
+          </el-button>
+          <el-button size="mini" type="primary" @click="addRole(row.username)">
+            添加权限
           </el-button>
           <el-button size="mini" type="danger" @click="resetPassword(row.username)">
             密码重置
@@ -103,7 +106,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="updateDialogVisible = false"> 取消 </el-button>
-        <el-button type="primary" @click="handleAdd()"> 更新 </el-button>
+        <el-button type="primary" @click="handleUpdate()"> 更新 </el-button>
       </div>
     </el-dialog>
   </div>
@@ -254,6 +257,9 @@ export default {
       this.temp.email = row.email
       this.temp.nickName = row.nickName
       this.updateDialogVisible = true
+    },
+    addRole(username) {
+      window.location.href = window.location.origin + '/#/user/role?u=' + username
     }
   }
 }

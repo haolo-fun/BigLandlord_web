@@ -162,12 +162,12 @@ export const asyncRoutes = [
   },
 
   {
-    path: 'external-link',
+    path: 'pay-link',
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: window.location.origin + '/#/pay',
+        meta: { title: 'pay-link', icon: 'link' }
       }
     ]
   },
