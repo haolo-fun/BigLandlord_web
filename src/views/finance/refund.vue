@@ -46,12 +46,12 @@
               <el-button size="mini" type="text" @click="depositPopoverVisible = false">取消</el-button>
               <el-button type="primary" size="mini" @click="handleDepositRefund">确定</el-button>
             </div>
-            <el-button slot="reference" type="danger" icon="el-icon-refresh-left" style="margin-left: 50px">退款</el-button>
           </el-popover>
           <div style="margin-top: 50px">
             <span>本次退款金额为：</span>
             <span style="color: orange">￥</span>
             <span style="font-size: 32px;color: orange">{{ depositRefundPrice }}</span>
+            <el-button slot="reference" type="danger" icon="el-icon-refresh-left" style="margin-left: 50px" @click="handleDepositRefund">退款</el-button>
           </div>
         </el-main>
       </el-container>
@@ -106,12 +106,12 @@
               <el-button size="mini" type="text" @click="orderPopoverVisible = false">取消</el-button>
               <el-button type="primary" size="mini" @click="handleOrderRefund">确定</el-button>
             </div>
-            <el-button slot="reference" type="danger" icon="el-icon-refresh-left" style="margin-left: 50px">退款</el-button>
           </el-popover>
           <div style="margin-top: 50px">
             <span>本次退款金额为：</span>
             <span style="color: orange">￥</span>
             <span style="font-size: 32px;color: orange">{{ orderRefundPrice }}</span>
+            <el-button slot="reference" type="danger" icon="el-icon-refresh-left" style="margin-left: 50px" @click="handleOrderRefund">退款</el-button>
           </div>
         </el-main>
       </el-container>
@@ -195,7 +195,8 @@ export default {
     if (route.query.d !== undefined) {
       this.depositSn = route.query.d
       this.selectDeposit()
-    } else if (route.query.r !== undefined) {
+    }
+    if (route.query.r !== undefined) {
       this.orderSn = route.query.r
       this.activeName = 'rentRefund'
       this.selectRent()
@@ -206,7 +207,7 @@ export default {
       listBySn(this.depositSn).then(
         (response) => {
           this.deposit = response.data.list[0]
-          this.depositRefundPrice = this.deposit.deposit
+          if (this.deposit.status === 1) this.depositRefundPrice = this.deposit.deposit
         }
       )
     },
@@ -214,7 +215,7 @@ export default {
       orderListByOrderSn(this.orderSn).then(
         (response) => {
           this.order = response.data.list[0]
-          this.orderRefundPrice = this.order.price
+          if (this.order.orderStatus === 2) this.orderRefundPrice = this.order.price
         }
       )
     },

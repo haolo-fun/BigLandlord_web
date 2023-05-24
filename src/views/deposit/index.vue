@@ -30,12 +30,12 @@
           <span>{{ row.deposit }}</span>
         </template>
       </el-table-column>
-      <!--todo 考虑不显示租客id-->
-      <el-table-column label="租客id" width="105px" align="center">
-        <template v-slot="{ row }">
-          <span>{{ row.tenantId }}</span>
-        </template>
-      </el-table-column>
+      <!-- 考虑不显示租客id-->
+      <!--      <el-table-column label="租客id" width="105px" align="center">-->
+      <!--        <template v-slot="{ row }">-->
+      <!--          <span>{{ row.tenantId }}</span>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="租客姓名" width="120px" align="center">
         <template v-slot="{ row }">
           <span>{{ row.name }}</span>

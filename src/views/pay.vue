@@ -168,7 +168,7 @@
 
     <el-dialog title="提示" :visible.sync="dialogVisible" width="300px">
       <span>是否成功支付？</span>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer">
         <el-button @click="dialogVisible = false;processStatus='error'">取 消</el-button>
         <el-button v-loading="haveToPayBtnLoading" type="primary" @click="haveToPay">我已支付</el-button>
       </span>
@@ -244,7 +244,7 @@ export default {
       dialogVisible: false,
       processStatus: 'process', // wait / process / finish / error / success
       form: {
-        phone: '13539905825',
+        phone: '13512345678',
         code: '280758'
       },
       tip: '',
@@ -305,7 +305,7 @@ export default {
         return false
       }
       this.stepsActive = this.stepsActive + 1
-      return this.stepsActive !== 3
+      return this.stepsActive === 3
     },
     back() {
       this.stepsActive = this.stepsActive - 1

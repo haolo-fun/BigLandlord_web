@@ -22,7 +22,7 @@
     </div>
 
     <el-table :key="tableKey" v-loading="listLoading" :data="list" stripe border fit highlight-current-row style="width: 100%">
-      <el-table-column label="地址" align="center" min-width="200px">
+      <el-table-column label="地址" align="center" min-width="250px">
         <template v-slot="{ row }">
           <span>{{ row.address }}</span>
         </template>
@@ -64,10 +64,7 @@
           <el-button v-if="row.status === 0" size="mini" type="success" @click="handleOrderDialog(row.id)">
             构建租单
           </el-button>
-          <el-button v-if="row.status === 1" size="mini" type="success" disabled>
-            构建租单
-          </el-button>
-          <el-button v-if="row.status === 0" size="mini" type="primary" @click="handleUpdateDialog(row)">
+          <el-button v-if="row.status === 0 || row.status === 2" size="mini" type="primary" @click="handleUpdateDialog(row)">
             编辑
           </el-button>
           <el-button v-if="row.status === 1" size="mini" type="primary" disabled>
@@ -76,9 +73,9 @@
           <el-button v-if="row.status === 0" size="mini" type="danger" @click="handleDeleteConfirm(row.id,$index)">
             删除
           </el-button>
-          <el-button v-if="row.status === 1" size="mini" type="danger" disabled>
-            删除
-          </el-button>
+          <el-button v-if="row.status === 1" size="mini" type="danger" @click="handleRentedRefund(row.tenantId)">退租</el-button>
+          <el-button v-if="row.status === 2" size="mini" type="success" @click="handleRenewDialog(row.id)">续租</el-button>
+          <el-button v-if="row.status === 2" size="mini" type="danger" @click="handleOverdueRefund(row.tenantId)">退租</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +90,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="租赁月数" prop="count">
-          <el-input-number v-model="dialogTemp.count" :min="1" :max="12" label="描述文字"></el-input-number>
+          <el-input-number v-model="dialogTemp.count" :min="1" :max="12" label="描述文字" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -102,7 +99,19 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="新增房源" :visible.sync="addDialogVisible" width="30%" center>
+    <el-dialog title="续租" :visible.sync="renewDialogVisible" width="25%" center>
+      <el-form ref="dataForm" :model="renewDialogTemp" label-position="top" label-width="100px" style="text-align: center;">
+        <el-form-item label="租赁月数" prop="count">
+          <el-input-number v-model="dialogTemp.count" :min="1" :max="12" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="renewDialogVisible = false"> 取消 </el-button>
+        <el-button type="primary" @click="handleRenew()"> 续租 </el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="新增房源" :visible.sync="addDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="houseTemp" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="地址" prop="address">
           <el-input v-model="houseTemp.address" clearable />
@@ -128,7 +137,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="更新信息" :visible.sync="updateDialogVisible" width="30%" center>
+    <el-dialog title="更新信息" :visible.sync="updateDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="houseTemp" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="ID" prop="id">
           <el-input v-model="houseTemp.id" disabled />
@@ -140,7 +149,7 @@
           <el-input v-model="houseTemp.area" clearable />
         </el-form-item>
         <el-form-item label="押金" prop="deposit">
-          <el-input v-model="houseTemp.deposit" clearable />
+          <el-input v-model="houseTemp.deposit" clearable :disabled="updateDepositVisible"/>
         </el-form-item>
         <el-form-item label="价格/月" prop="price">
           <el-input v-model="houseTemp.price" clearable />
@@ -161,7 +170,7 @@
 
 <script>
 
-import { addHouse, delHouse, updateHouse, list, listByAddress, listByStatus, listByArea, listByPrice } from '@/api/house'
+import { addHouse, delHouse, updateHouse, list, listByAddress, listByStatus, listByArea, listByPrice, rentedRefund, overdueRefund, renew } from '@/api/house'
 import Pagination from '@/components/Pagination'
 import { getTenantOptions } from '@/api/tenant'
 import { buildOrder } from '@/api/order'
@@ -175,6 +184,10 @@ const statusOptions = [
   {
     key: 1,
     label: '已租'
+  },
+  {
+    key: 2,
+    label: '到期'
   }
 ]
 
@@ -201,8 +214,9 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        1: 'danger',
-        0: 'success'
+        1: 'warning',
+        0: 'success',
+        2: 'danger'
       }
       return statusMap[status]
     }
@@ -228,13 +242,19 @@ export default {
       selectOptions,
       selectValue: 0,
       createOrderDialogVisible: false,
+      renewDialogVisible: false,
       addDialogVisible: false,
       updateDialogVisible: false,
+      updateDepositVisible: false,
       dialogOptions: [],
       selectLoading: false,
       dialogTemp: {
         houseId: undefined,
         tenantId: undefined,
+        count: 1
+      },
+      renewDialogTemp: {
+        houseId: undefined,
         count: 1
       },
       houseTemp: {
@@ -355,6 +375,8 @@ export default {
       this.houseTemp.deposit = row.deposit
       this.houseTemp.price = row.price
       this.houseTemp.status = row.status
+      if (row.status === 0) this.updateDepositVisible = false
+      if (row.status === 2) this.updateDepositVisible = true
       this.updateDialogVisible = true
     },
     handleDeleteConfirm(id, index) {
@@ -394,6 +416,7 @@ export default {
               duration: 2000
             })
             this.createOrderDialogVisible = false
+            this.refreshList()
           } else {
             this.$notify.error({
               title: 'Fail',
@@ -423,6 +446,7 @@ export default {
               duration: 2000
             })
           }
+          this.refreshList()
         }
       )
     },
@@ -438,12 +462,51 @@ export default {
               duration: 2000
             })
             this.updateDialogVisible = false
+            this.refreshList()
           } else {
             this.$notify.error({
               title: 'Fail',
               message: 'Update Failed',
               duration: 2000
             })
+          }
+        }
+      )
+    },
+    handleRentedRefund(tenantId) {
+      rentedRefund(tenantId).then(
+        (response) => {
+          const depositSn = response.data.depositSn
+          const orderSn = response.data.orderSn
+          window.open(window.location.origin + '/#/finance/refund?d=' + depositSn + '&r=' + orderSn)
+        }
+      )
+    },
+    handleOverdueRefund(tenantId) {
+      overdueRefund(tenantId).then(
+        (response) => {
+          const depositSn = response.data
+          window.open(window.location.origin + '/#/finance/refund?d=' + depositSn)
+        }
+      )
+    },
+    handleRenewDialog(id) {
+      this.renewDialogTemp.houseId = id
+      this.renewDialogTemp.count = 1
+      this.renewDialogVisible = true
+    },
+    handleRenew() {
+      renew(this.renewDialogTemp.houseId, this.renewDialogTemp.count).then(
+        (response) => {
+          if (response.code === 200) {
+            this.$notify({
+              title: 'Success',
+              message: 'Renew Successfully',
+              type: 'success',
+              duration: 2000
+            })
+            this.renewDialogVisible = false
+            this.refreshList()
           }
         }
       )

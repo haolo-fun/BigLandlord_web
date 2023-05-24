@@ -49,7 +49,7 @@
       </el-table-column>
       <el-table-column label="附加费" width="70px" align="center">
         <template v-slot="{ row }">
-          <el-button type="text" @click="openDrawer(row.orderSn)">详情</el-button>
+          <el-button type="text" @click="openDrawer(row.orderSn,row.orderStatus)">详情</el-button>
         </template>
       </el-table-column>
       <el-table-column label="总费用" width="100px" align="center">
@@ -98,7 +98,7 @@
       size="50%"
     >
       <div style="margin: 20px">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" style="margin-bottom: 20px" @click="handleInnerAddDrawerVisible()">新增</el-button>
+        <el-button v-if="drawerAddButton" type="primary" icon="el-icon-circle-plus-outline" style="margin-bottom: 20px" @click="handleInnerAddDrawerVisible()">新增</el-button>
         <el-table v-loading="drawerListLoading" :data="drawerList" stripe>
           <el-table-column label="内容" width="150px">
             <template v-slot="{ row }">
@@ -187,7 +187,7 @@
       </el-drawer>
     </el-drawer>
 
-    <el-dialog title="租客详情" :visible.sync="tenantDialogVisible" width="30%" center>
+    <el-dialog title="租客详情" :visible.sync="tenantDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="tenantInfo" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="tenantInfo.name" disabled />
@@ -303,6 +303,7 @@ export default {
       addressSelectOptions: [],
       tenantIdSelectOptions: [],
       drawerTableVisible: false,
+      drawerAddButton: true,
       innerDrawerVisible: false,
       innerAddDrawerVisible: false,
       tenantDialogVisible: false,
@@ -444,9 +445,10 @@ export default {
       )
       this.drawerListLoading = false
     },
-    openDrawer(sn) {
+    openDrawer(sn, status) {
       this.drawerOrderSn = sn
       this.drawerTableVisible = true
+      this.drawerAddButton = status <= 1
       this.getAdditionalList()
     },
     updateAdditional(row) {

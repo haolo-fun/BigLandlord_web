@@ -64,3 +64,24 @@ export function listByHouseOptions(address) {
     method: 'get'
   })
 }
+
+export function rentedRefund(tenantId) {
+  return request({
+    url: '/house/refund/rented/' + tenantId,
+    method: 'get'
+  })
+}
+
+export function overdueRefund(tenantId) {
+  return request({
+    url: '/house/refund/overdue/' + tenantId,
+    method: 'get'
+  })
+}
+
+export function renew(houseId, count) {
+  return request({
+    url: '/house/renew/' + houseId + '/' + count,
+    method: 'put'
+  })
+}

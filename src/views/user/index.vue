@@ -46,7 +46,7 @@
           <span>{{ row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="250px" fixed="right">
+      <el-table-column label="操作" align="center" width="320px" fixed="right">
         <template v-slot="{ row }">
           <el-button size="mini" type="primary" @click="handleUpdateDialog(row)">
             编辑
@@ -68,19 +68,19 @@
     </el-table>
     <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog title="添加" :visible.sync="addDialogVisible" width="30%" center>
+    <el-dialog title="添加" :visible.sync="addDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="用户名" prop="name">
-          <el-input v-model="temp.name" placeholder="必填" clearable />
+          <el-input v-model="temp.username" placeholder="必填" clearable />
         </el-form-item>
         <el-form-item label="手机号" prop="mobile">
           <el-input v-model="temp.mobile" placeholder="必填" onkeyup="value=value.replace(/\D/g,'')" maxlength="11" clearable />
         </el-form-item>
         <el-form-item label="邮箱" prop="idCard">
-          <el-input v-model="temp.idCard" placeholder="可选" clearable />
+          <el-input v-model="temp.email" placeholder="可选" clearable />
         </el-form-item>
         <el-form-item label="昵称" prop="idCard">
-          <el-input v-model="temp.idCard" placeholder="可选" clearable />
+          <el-input v-model="temp.nickName" placeholder="可选" clearable />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -89,7 +89,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="编辑" :visible.sync="updateDialogVisible" width="30%" center>
+    <el-dialog title="编辑" :visible.sync="updateDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="用户名" prop="name">
           <el-input v-model="temp.username" disabled />

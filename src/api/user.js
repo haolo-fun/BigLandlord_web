@@ -23,6 +23,14 @@ export function logout() {
   })
 }
 
+export function resetPw(data) {
+  return request({
+    url: '/user/resetPassword',
+    method: 'put',
+    data
+  })
+}
+
 // admin permission
 
 export function getUserList(current, size) {

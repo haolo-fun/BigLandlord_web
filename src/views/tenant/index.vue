@@ -56,7 +56,7 @@
 
     <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog title="编辑" :visible.sync="updateDialogVisible" width="30%" center>
+    <el-dialog title="编辑" :visible.sync="updateDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="ID" prop="id">
           <el-input v-model="temp.id" disabled />
@@ -67,8 +67,8 @@
         <el-form-item label="手机号" prop="mobile">
           <el-input v-model="temp.mobile" clearable />
         </el-form-item>
-        <el-form-item label="身份证" prop="idCard">
-          <el-input v-model="temp.idCard" placeholder="身份证为空则不修改" clearable />
+        <el-form-item label="身份证" prop="idcard">
+          <el-input v-model="temp.idcard" placeholder="身份证为空则不修改" clearable />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -77,7 +77,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="添加" :visible.sync="addDialogVisible" width="30%" center>
+    <el-dialog title="添加" :visible.sync="addDialogVisible" width="40%" center>
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left: 50px">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="temp.name" clearable />
@@ -85,8 +85,8 @@
         <el-form-item label="手机号" prop="mobile">
           <el-input v-model="temp.mobile" clearable />
         </el-form-item>
-        <el-form-item label="身份证" prop="idCard">
-          <el-input v-model="temp.idCard" clearable />
+        <el-form-item label="身份证" prop="idcard">
+          <el-input v-model="temp.idcard" clearable />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -130,7 +130,7 @@ export default {
         id: undefined,
         name: undefined,
         mobile: undefined,
-        idCard: undefined
+        idcard: undefined
       },
       delTemp: {
         id: undefined,
@@ -190,7 +190,7 @@ export default {
       this.temp.id = row.id
       this.temp.mobile = row.mobile
       this.temp.name = row.name
-      this.temp.idCard = ''
+      this.temp.idcard = row.idcard
     },
     handleUpdate() {
       const tempData = Object.assign({}, this.temp)
@@ -219,7 +219,7 @@ export default {
       this.temp.id = ''
       this.temp.mobile = ''
       this.temp.name = ''
-      this.temp.idCard = ''
+      this.temp.idcard = ''
     },
     handleAdd() {
       const tempData = Object.assign({}, this.temp)
@@ -233,6 +233,7 @@ export default {
               duration: 2000
             })
             this.addDialogVisible = false
+            this.refreshList()
           } else {
             this.$notify.error({
               title: 'Fail',

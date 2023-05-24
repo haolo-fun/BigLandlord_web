@@ -9,7 +9,7 @@ export function sandCode(phone) {
 
 export function sandCodeToTenant(phone) {
   return request({
-    url: '/notify/tenant/sendCode/' + phone,
+    url: '/notify/sendCode/tenant/' + phone,
     method: 'post'
   })
 }
