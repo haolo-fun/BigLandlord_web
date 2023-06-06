@@ -1,24 +1,86 @@
-# vue-admin-template
+# BigLandlord_web
 
-English | [简体中文](./README-zh.md)
+![毕业设计](https://img.shields.io/badge/-%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1-blue) ![npm版本](https://img.shields.io/badge/npm-8.11.0-brightgreen) ![vue版本](https://img.shields.io/badge/vue-2.6.10-brightgreen)
 
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+![vue-admin-template](https://img.shields.io/badge/vue--admin--template-4.4.0-yellowgreen) ![element-ui](https://img.shields.io/badge/element--ui-2.13.2-yellowgreen)
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
+## 介绍
+这是一个基于spring boot + vue 的房东房屋租赁管理系统
 
+本仓库为项目前端代码，后端代码仓库在[haolo-fun/BigLandlord](https://github.com/haolo-fun/BigLandlord)
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
+- spring security + JWT
+- Mysql + Redis
+- [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)后台模板
+- [knif4j](https://github.com/xiaoymin/knife4j)接口文档
+- [Element UI](https://element.eleme.io/#/zh-CN)组件
+- [阿里云短信服务](https://dysms.console.aliyun.com/overview)
+- [支付宝开放平台](https://developers.alipay.com/)
 
+### 实现功能
+
+- [x] 房源信息管理
+- [x] 租客信息管理
+- [x] 押金管理
+- [x] 租单管理
+- [x] 财务管理
+- [x] 支付系统
+
+## 演示
+
+[演示地址](https://rent.haolo.fun)
+
+[接口文档地址](https://api.rent.haolo.fun/doc.html)
+
+### 部分截图
+
+![首页](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061311339.png)
+![权限](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061311836.png)
+![租单](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061313345.png)
+![附加费](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061309231.png)
+![财务](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061313183.png)
+![支付](https://raw.githubusercontent.com/haolo-fun/ImageHosting/main/%20BigLandlord/202306061314069.png)
+
+## 配置
+
+#### 开发环境
+
+在.env.development文件中指定后端地址。
+
+```
+# just a flag
+ENV = 'development'
+
+# base api
+VUE_APP_BASE_API = 'http://127.0.0.1:8090'
+```
+
+#### 测试环境
+在.env.staging文件中指定后端地址。
+```
+NODE_ENV = production
+
+# just a flag
+ENV = 'staging'
+
+# base api
+VUE_APP_BASE_API = 'https://《Your IP or Domain》'
+```
+
+#### 生产环境
+
+在.env.production文件中指定后端地址。
+
+```
+# just a flag
+ENV = 'production'
+
+# base api
+VUE_APP_BASE_API = 'https://《Your IP or Domain》'
+```
 ## Build Setup
 
-
 ```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
-
-# enter the project directory
-cd vue-admin-template
-
 # install dependency
 npm install
 
@@ -37,55 +99,3 @@ npm run build:stage
 # build for production environment
 npm run build:prod
 ```
-
-## Advanced
-
-```bash
-# preview the release environment effect
-npm run preview
-
-# preview the release environment effect + static resource analysis
-npm run preview -- --report
-
-# code format check
-npm run lint
-
-# code format check and auto fix
-npm run lint -- --fix
-```
-
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
-
-## Demo
-
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
-
-## Extra
-
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
-
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
-
-## Related Project
-
-- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-- [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-- [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-- [awesome-project](https://github.com/PanJiaChen/vue-element-admin/issues/2312)
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| --------- | --------- | --------- | --------- |
-| IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## License
-
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen
